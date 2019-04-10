@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys
+import json
 # import pickle
 # import os.path
 from googleapiclient.discovery import build
@@ -19,10 +20,11 @@ def main():
         "credentials.json", scopes=SCOPES
     )
 
-    local_filename = sys.argv[1]
-    target_filename = sys.argv[2]
-    folder_name = sys.argv[3]
-    email = sys.argv[4]
+    json_file = json.loads(open(sys.argv[1]).read())
+    local_filename = json_file["local_filename"]
+    target_filename = json_file["target_filename"]
+    folder_name = json_file["folder_name"]
+    email = json_file["email"]
 
     service = build('drive', 'v3', credentials=credentials)
 
@@ -60,7 +62,6 @@ def check_permissions(service, file_id, email):
             permissionId=permission["id"],
             fields='emailAddress'
         ).execute()['emailAddress']
-        print(permission_email)
         if permission_email == email:
             already_has_permission = True
     return already_has_permission

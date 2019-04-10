@@ -10,4 +10,5 @@ RUN pip3 install -r requirements.txt
 COPY i3_export_drive.py /app/
 COPY credentials.json /app/credentials.json
 COPY test.json /app/test.json
+COPY test.txt /app/test.txt
 ENTRYPOINT ["/usr/bin/python3", "i3_export_drive.py"]
